@@ -12,7 +12,6 @@ namespace Incubation_RestAPIBusLogicLayer_API.Utils
     public class GetUtils
     {
         public static T GetPost<T>(string resourceUrl)
-
         {
             return RestClientUtils.Get<T>(resourceUrl);
         }
