@@ -9,17 +9,17 @@ namespace Incubation_RestAPIFrameworkFile
 {
     public class Config
     {
-        public string BaseUrl { get; set; }
-        public string SubmitJokeUrl { get; set; }
-        public string SubmitJokeNon200Url { get; set; }
-        public string PostUrl { get; set; }
-        public string CommentsUrl { get; set; }
-        public string CommentsPostIdUrl { get; set; }
+        public string? BaseUrl { get; set; }
+        public string? SubmitJokeUrl { get; set; }
+        public string? SubmitJokeNon200Url { get; set; }
+        public string? PostUrl { get; set; }
+        public string? CommentsUrl { get; set; }
+        public string? CommentsPostIdUrl { get; set; }
     }
 
     public static class ConfigReader
     {
-        private static Config _config;
+        private static Config? _config;
 
         public static Config Settings
         {

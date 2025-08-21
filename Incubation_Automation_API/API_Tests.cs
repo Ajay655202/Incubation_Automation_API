@@ -4,6 +4,7 @@ using Incubation_RestAPIBusLogicLayer_API.Utils;
 using Incubation_RestAPIFrameworkFile;
 using RestSharp;
 using Incubation_Automation_API_Parallel;
+using System.ComponentModel;
 
 [assembly: Parallelize(Workers = 2, Scope = ExecutionScope.MethodLevel)]
 namespace Incubation_Automation_API
@@ -12,6 +13,7 @@ namespace Incubation_Automation_API
     public class API_Tests
     {
         [TestMethod]
+        [Category("Parallel")]
         public void GetPost()
         {
             Thread.Sleep(20000);
@@ -30,6 +32,7 @@ namespace Incubation_Automation_API
         }
 
         [TestMethod]
+        [Category("Parallel")]
         public void PostWithUserId()
         {
             Thread.Sleep(20000);
@@ -46,6 +49,7 @@ namespace Incubation_Automation_API
         }
 
         [TestMethod]
+        [Category("Parallel")]
         public void PostWithUserIdComments()
         {
             Thread.Sleep(20000);
@@ -62,6 +66,7 @@ namespace Incubation_Automation_API
         }
 
         [TestMethod]
+        [Category("Parallel")]
         public void PostWithCommentsPostId()
         {
             Thread.Sleep(20000);

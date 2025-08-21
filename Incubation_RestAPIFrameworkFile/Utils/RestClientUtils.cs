@@ -33,7 +33,7 @@ namespace Incubation_RestAPIFrameworkFile.Utils
 
         private static RestClient RestClientWithAuthentication(string username, string password)
         {
-            var options = new RestClientOptions(ConfigurationManager.AppSettings["BaseUrl"].ToString())
+            RestClientOptions options = new RestClientOptions(ConfigurationManager.AppSettings["BaseUrl"]?.ToString())
             {
                 Authenticator = new HttpBasicAuthenticator(username, password)
             };
