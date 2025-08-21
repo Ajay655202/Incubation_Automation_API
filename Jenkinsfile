@@ -44,7 +44,7 @@ stage('Build Solution') {
 
         stage('Run Regression Tests') {
             steps {
-                bat "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow\\vstest.console.exe\" ${TEST_DLL} --TestCaseFilter:TestCategory=Parallel /logger:trx"
+                bat "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow\\vstest.console.exe\" ${TEST_DLL} --TestCaseFilter:Category=Parallel /logger:trx"
             }
         }
 
