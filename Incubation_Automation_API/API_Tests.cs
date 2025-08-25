@@ -16,7 +16,6 @@ namespace Incubation_Automation_API
         [Category("Parallel")]
         public void GetPost()
         {
-            Thread.Sleep(20000);
             GetPostResponse[] response = GetUtils.GetPost<GetPostResponse[]>(ConfigReader.Settings.PostUrl);
             GlobalData.FirstId = response[0].id;
             GlobalData.LastId = response.Last().id;
@@ -35,8 +34,6 @@ namespace Incubation_Automation_API
         [Category("Parallel")]
         public void GetPostWithUserId()
         {
-            Thread.Sleep(20000);
-
             GetPostResponse response = GetUtils.GetPost<GetPostResponse>(string.Concat(ConfigReader.Settings.PostUrl, "/", GlobalData.FirstId));
             if (response.userId.Equals(GlobalData.FirstId))
             {
@@ -51,8 +48,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void GetPostWithUserIdError()
         {
-            Thread.Sleep(20000);
-
             GetPostResponse response = GetUtils.GetPost<GetPostResponse>(string.Concat(ConfigReader.Settings.PostUrl, "!@#$/", GlobalData.FirstId));
             if (response.userId.Equals(GlobalData.FirstId))
             {
@@ -68,7 +63,6 @@ namespace Incubation_Automation_API
         [Category("Parallel")]
         public void GetPostWithUserIdComments()
         {
-            Thread.Sleep(20000);
             string url = string.Concat(ConfigReader.Settings.PostUrl, "/", GlobalData.FirstId, ConfigReader.Settings.CommentsUrl);
             GetCommentsResponse[] response = GetUtils.GetPost<GetCommentsResponse[]>(url);
             if (response[0].postId.Equals(GlobalData.FirstId))
@@ -85,7 +79,6 @@ namespace Incubation_Automation_API
         [Category("Parallel")]
         public void GetPostWithCommentsPostId()
         {
-            Thread.Sleep(20000);
             string url = string.Concat(ConfigReader.Settings.CommentsPostIdUrl, GlobalData.FirstId);
             GetCommentsResponse[] response = GetUtils.GetPost<GetCommentsResponse[]>(url);
             if (response[0].postId.Equals(GlobalData.FirstId))
@@ -101,7 +94,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PostData()
         {
-            Thread.Sleep(20000);
             RestResponse response = PostUtils.CreatePostForStatus(GlobalData.LastId + 1, GlobalData.LastUserId + 1, ConfigReader.Settings.PostUrl);
             if (response.StatusCode.Equals(HttpStatusCode.Created))
             {
@@ -116,7 +108,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PostDataError()
         {
-            Thread.Sleep(20000);
             string url = string.Concat(ConfigReader.Settings.PostUrl, "!@#$%");
             RestResponse response = PostUtils.CreatePostForStatus(GlobalData.LastId + 1, GlobalData.LastUserId + 1, url);
             if (response.StatusCode.Equals(HttpStatusCode.Created))
@@ -132,7 +123,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PutData()
         {
-            Thread.Sleep(20000);
             string resourceUrl = string.Concat(ConfigReader.Settings.PostUrl, "/", GlobalData.FirstId);
             RestResponse response = PostUtils.CreatePut(GlobalData.LastId + 1, GlobalData.LastUserId + 1, resourceUrl);
             if (response.StatusCode.Equals(HttpStatusCode.OK))
@@ -148,7 +138,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PutDataError()
         {
-            Thread.Sleep(20000);
             string resourceUrl = string.Concat(ConfigReader.Settings.PostUrl, "/", string.Concat(GlobalData.FirstId, "!@#$"));
             RestResponse response = PostUtils.CreatePut(GlobalData.LastId + 1, GlobalData.LastUserId + 1, resourceUrl);
             if (response.StatusCode.Equals(HttpStatusCode.OK))
@@ -164,7 +153,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PatchData()
         {
-            Thread.Sleep(20000);
             string resourceUrl = string.Concat(ConfigReader.Settings.PostUrl, "/", GlobalData.FirstId);
             RestResponse response = PostUtils.CreatePatch(resourceUrl);
             if (response.StatusCode.Equals(HttpStatusCode.OK))
@@ -180,7 +168,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PatchDataError()
         {
-            Thread.Sleep(20000);
             string resourceUrl = string.Concat(string.Concat(ConfigReader.Settings.PostUrl, "@!#@%!^!"), "/", string.Concat(GlobalData.FirstId, "!@#$"));
             RestResponse response = PostUtils.CreatePatch(resourceUrl);
             if (response.StatusCode.Equals(HttpStatusCode.OK))
@@ -196,7 +183,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void DeleteData()
         {
-            Thread.Sleep(20000);
             bool response = PostUtils.DeletePost(GlobalData.FirstId);
             if (response)
             {
@@ -211,7 +197,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void DeleteDataError()
         {
-            Thread.Sleep(20000);
             bool response = PostUtils.DeletePost(GlobalData.FirstId, resourceUrl: "WrongUrl");
             if (response)
             {
@@ -226,7 +211,6 @@ namespace Incubation_Automation_API
         [TestMethod]
         public void PostDataNon200()
         {
-            Thread.Sleep(20000);
             RestResponse response = GetUtils.GetPost<RestResponse>(string.Concat(ConfigReader.Settings.PostUrl, "!@#$"));
             if (response.StatusCode == 0)
             {
