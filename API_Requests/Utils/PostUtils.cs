@@ -54,9 +54,9 @@ namespace Incubation_RestAPIBusLogicLayer_API.Utils
             return payload;
         }
 
-        public static bool DeletePost(int id)
+        public static bool DeletePost(int id, string resourceUrl = "posts/")
         {
-            return RestClientUtils.Delete("posts/" + id.ToString(), DataFormat.Json, System.Net.HttpStatusCode.OK);
+            return RestClientUtils.Delete(resourceUrl + id.ToString(), DataFormat.Json, System.Net.HttpStatusCode.OK);
         }
     }
 }

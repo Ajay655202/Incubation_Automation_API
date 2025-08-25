@@ -6,7 +6,7 @@ using RestSharp;
 using Incubation_Automation_API_Parallel;
 using System.ComponentModel;
 
-[assembly: Parallelize(Workers = 2, Scope = ExecutionScope.MethodLevel)]
+[assembly: Parallelize(Workers = 6, Scope = ExecutionScope.MethodLevel)]
 namespace Incubation_Automation_API
 {
     [TestClass]
@@ -33,7 +33,7 @@ namespace Incubation_Automation_API
 
         [TestMethod]
         [Category("Parallel")]
-        public void PostWithUserId()
+        public void GetPostWithUserId()
         {
             Thread.Sleep(20000);
 
@@ -49,8 +49,24 @@ namespace Incubation_Automation_API
         }
 
         [TestMethod]
+        public void GetPostWithUserIdError()
+        {
+            Thread.Sleep(20000);
+
+            GetPostResponse response = GetUtils.GetPost<GetPostResponse>(string.Concat(ConfigReader.Settings.PostUrl, "!@#$/", GlobalData.FirstId));
+            if (response.userId.Equals(GlobalData.FirstId))
+            {
+                Console.WriteLine($"Got response with user id {response.userId} successfully");
+            }
+            else
+            {
+                Assert.Fail($"Failed to Get response for the user id {GlobalData.FirstId}");
+            }
+        }
+
+        [TestMethod]
         [Category("Parallel")]
-        public void PostWithUserIdComments()
+        public void GetPostWithUserIdComments()
         {
             Thread.Sleep(20000);
             string url = string.Concat(ConfigReader.Settings.PostUrl, "/", GlobalData.FirstId, ConfigReader.Settings.CommentsUrl);
@@ -67,7 +83,7 @@ namespace Incubation_Automation_API
 
         [TestMethod]
         [Category("Parallel")]
-        public void PostWithCommentsPostId()
+        public void GetPostWithCommentsPostId()
         {
             Thread.Sleep(20000);
             string url = string.Concat(ConfigReader.Settings.CommentsPostIdUrl, GlobalData.FirstId);
@@ -98,10 +114,42 @@ namespace Incubation_Automation_API
         }
 
         [TestMethod]
+        public void PostDataError()
+        {
+            Thread.Sleep(20000);
+            string url = string.Concat(ConfigReader.Settings.PostUrl, "!@#$%");
+            RestResponse response = PostUtils.CreatePostForStatus(GlobalData.LastId + 1, GlobalData.LastUserId + 1, url);
+            if (response.StatusCode.Equals(HttpStatusCode.Created))
+            {
+                Console.WriteLine($"Post with user id {GlobalData.LastUserId} sent successfully");
+            }
+            else
+            {
+                Assert.Fail($"Failed to send post with user id {GlobalData.LastUserId}");
+            }
+        }
+
+        [TestMethod]
         public void PutData()
         {
             Thread.Sleep(20000);
             string resourceUrl = string.Concat(ConfigReader.Settings.PostUrl, "/", GlobalData.FirstId);
+            RestResponse response = PostUtils.CreatePut(GlobalData.LastId + 1, GlobalData.LastUserId + 1, resourceUrl);
+            if (response.StatusCode.Equals(HttpStatusCode.OK))
+            {
+                Console.WriteLine($"Executed put for user id {GlobalData.FirstId} successfully");
+            }
+            else
+            {
+                Assert.Fail($"Failed to execute put for user id {GlobalData.FirstId}");
+            }
+        }
+
+        [TestMethod]
+        public void PutDataError()
+        {
+            Thread.Sleep(20000);
+            string resourceUrl = string.Concat(ConfigReader.Settings.PostUrl, "/", string.Concat(GlobalData.FirstId, "!@#$"));
             RestResponse response = PostUtils.CreatePut(GlobalData.LastId + 1, GlobalData.LastUserId + 1, resourceUrl);
             if (response.StatusCode.Equals(HttpStatusCode.OK))
             {
@@ -130,10 +178,41 @@ namespace Incubation_Automation_API
         }
 
         [TestMethod]
+        public void PatchDataError()
+        {
+            Thread.Sleep(20000);
+            string resourceUrl = string.Concat(string.Concat(ConfigReader.Settings.PostUrl, "@!#@%!^!"), "/", string.Concat(GlobalData.FirstId, "!@#$"));
+            RestResponse response = PostUtils.CreatePatch(resourceUrl);
+            if (response.StatusCode.Equals(HttpStatusCode.OK))
+            {
+                Console.WriteLine($"Executed patch for user id {GlobalData.FirstId} successfully");
+            }
+            else
+            {
+                Assert.Fail($"Failed to execute patch for user id {GlobalData.FirstId}");
+            }
+        }
+
+        [TestMethod]
         public void DeleteData()
         {
             Thread.Sleep(20000);
             bool response = PostUtils.DeletePost(GlobalData.FirstId);
+            if (response)
+            {
+                Console.WriteLine($"Executed Delete for user id {GlobalData.FirstId} successfully");
+            }
+            else
+            {
+                Assert.Fail($"Failed to execute Delete for user id {GlobalData.FirstId}");
+            }
+        }
+
+        [TestMethod]
+        public void DeleteDataError()
+        {
+            Thread.Sleep(20000);
+            bool response = PostUtils.DeletePost(GlobalData.FirstId, resourceUrl: "WrongUrl");
             if (response)
             {
                 Console.WriteLine($"Executed Delete for user id {GlobalData.FirstId} successfully");
@@ -158,5 +237,10 @@ namespace Incubation_Automation_API
                 Assert.Fail("Failed to execute non 200 response");
             }
         }
+
+        //Some more negative scenarios, when all requests have to fail
+
+        //Report
+        //CICD
     }
 }
