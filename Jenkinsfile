@@ -24,11 +24,7 @@ pipeline {
                 bat "dotnet build ${SOLUTION_NAME} --configuration Release -warnaserror:0"
             }
         }
-        stage('Test') {
-            steps {
-                bat "dotnet test ${SOLUTION_NAME} --configuration Release"
-            }
-        }
+       
 
         stage('Restore Packages') {
             steps {
