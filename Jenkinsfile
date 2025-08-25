@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "dotnet build ${SOLUTION_NAME} --configuration Release"
+                bat "dotnet build ${SOLUTION_NAME} --configuration Release -warnaserror:0"
             }
         }
         stage('Test') {
