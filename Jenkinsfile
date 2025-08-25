@@ -17,7 +17,15 @@ pipeline {
 		 stage('Restore') {
             steps {
 			    bat 'dotnet nuget locals all --clear'
-                bat 'dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org'
+
+				 bat 'dotnet nuget list source'
+
+      
+        bat 'dotnet nuget remove source nuget.org || exit 0'
+        bat 'dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org'
+
+      
+      
                 bat "dotnet restore ${SOLUTION_NAME} --no-cache --force"
             }
         }
